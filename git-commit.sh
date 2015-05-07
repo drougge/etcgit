@@ -53,5 +53,7 @@ git ls-files -c -d -o -z | git update-index --add --remove -z --stdin
 
 git commit -m "$log_message" -n
 
-# Not sure the following is really a good idea...
-git repack -d
+# repack every now and then
+if [ `dd if=/dev/urandom bs=1 count=1 2>/dev/null | od -iAn` -lt 16 ]; then
+	git repack -d
+fi
