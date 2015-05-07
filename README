@@ -1,0 +1,9 @@
+Everyone keeps their /etc in git, right?
+
+Naturally I made my own script for it. (Based on something I found somewhere.)
+Works on FreeBSD, NetBSD, Debian-likes and RedHat-likes.
+
+Setup:
+# cd /etc
+# git init
+# chmod 700 .git
