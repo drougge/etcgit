@@ -13,6 +13,7 @@ IFS=_
 
 # Defaults, selectively overridden in case below
 STATCMD="stat_-f_%Sp %5l %6u %6g %12z %m %N"
+SORTCMD="sort_-z"
 
 # Choose commands based on kernel name and some other things for Linux
 case "`uname`" in
@@ -30,6 +31,11 @@ case "`uname`" in
 		# Keep a list of installed packages
 		pkg info -a > 00PACKAGES
 		;;
+	NetBSD)
+		SORTCMD="sort_-R\\0"
+		# Keep a list of installed packages
+		pkgin list > 00PACKAGES
+		;;
 	*)
 		echo >&2 "Unknown OS"
 		exit 1
@@ -38,7 +44,7 @@ esac
 
 # Also keep a list of all files present, with full metadata
 find /etc \( -name .git -o -name 00FILES \) -prune -o -print0 \
- | sort -z | xargs -0 $STATCMD > 00FILES
+ | $SORTCMD | xargs -0 $STATCMD > 00FILES
 
 # Make sure all files are in index
 git ls-files -c -d -o -z | git update-index --add --remove -z --stdin
