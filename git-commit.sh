@@ -22,6 +22,8 @@ case "`uname`" in
 		# Keep a list of installed packages
 		if [ -e /etc/debian_version ]; then
 			COLUMNS=160 dpkg -l > 00PACKAGES
+		elif [ -e /etc/redhat-release ]; then
+			rpm -qa | sort > 00PACKAGES
 		else
 			echo >&2 "Unknown Linux dist"
 			exit 1
