@@ -45,8 +45,8 @@ case "`uname`" in
 esac
 
 # Also keep a list of all files present, with full metadata
-find /etc \( -name .git -o -name 00FILES \) -prune -o -print0 \
- | $SORTCMD | xargs -0 $STATCMD > 00FILES
+find /etc \( -name .git -o -name 00FILES -o -name 00PACKAGES \) -prune \
+ -o -print0 | $SORTCMD | xargs -0 $STATCMD > 00FILES
 
 # Make sure all files are in index
 git ls-files -c -d -o -z | git update-index --add --remove -z --stdin
