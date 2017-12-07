@@ -27,6 +27,8 @@ case "`uname`" in
 			COLUMNS=160 dpkg -l > 00PACKAGES
 		elif [ -e /etc/redhat-release ]; then
 			rpm -qa | sort > 00PACKAGES
+		elif [ -e /etc/alpine-release ]; then
+			apk -vv info | sort > 00PACKAGES
 		else
 			echo >&2 "Unknown Linux dist"
 			exit 1
