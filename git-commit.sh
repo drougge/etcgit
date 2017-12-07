@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# See if git is installed or exit
+which git > /dev/null 2>&1 || exit $?
+
 if [ "x$*" = "x" ]; then
 	log_message="autocommit"
 else
