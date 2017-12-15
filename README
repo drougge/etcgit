@@ -1,7 +1,7 @@
 Everyone keeps their /etc in git, right?
 
 Naturally I made my own script for it. (Based on something I found somewhere.)
-Works on FreeBSD, NetBSD, Debian-likes and RedHat-likes.
+Works on FreeBSD, NetBSD, Debian-likes, RedHat-likes and Alpine-likes.
 
 Setup:
 # cd /etc
