@@ -76,6 +76,12 @@ case "`uname`" in
 		(findFunction)
 		(gitFunction)
 		;;
+	OpenBSD)
+		# Keep a list of installed packages
+		pkg_info -a > "$ETCDIR/00PACKAGES"
+		(findFunction)
+		(gitFunction)
+		;;
 	NetBSD)
 		SORTCMD="sort_-R\\0"
 		# Keep a list of installed packages
