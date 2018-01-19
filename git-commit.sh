@@ -38,6 +38,10 @@ case "`uname`" in
 		# Keep a list of installed packages
 		pkg info -a > 00PACKAGES
 		;;
+	OpenBSD)
+		# Keep a list of installed packages
+		pkg_info -a > 00PACKAGES
+		;;
 	NetBSD)
 		SORTCMD="sort_-R\\0"
 		# Keep a list of installed packages
