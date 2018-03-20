@@ -11,7 +11,7 @@ else
 	log_message="$*"
 fi
 
-cd /etc
+cd /etc || exit 1
 
 if [ ! -d .git ]; then
 	echo >&2 Run \"git init\" in /etc and configure whatever you need.
