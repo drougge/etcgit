@@ -7,3 +7,8 @@ Setup:
 # cd /etc
 # git init
 # chmod 700 .git
+
+You can add directories to DIRS to include them in the git repo. This
+is done automatically for the package-/etc-dirs on FreeBSD and NetBSD.
+If you do so core.worktree will be set to /, which makes the output of
+"git status" a bit annoying.

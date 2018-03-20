@@ -27,6 +27,7 @@ IFS=_
 # Defaults, selectively overridden in case below
 STATCMD="stat_-f_%Sp %5l %6u %6g %12z %m %N"
 SORTCMD="sort_-z"
+DIRS="/etc"
 
 # Choose commands based on kernel name and some other things for Linux
 case "`uname`" in
@@ -47,6 +48,8 @@ case "`uname`" in
 	FreeBSD)
 		# Keep a list of installed packages
 		pkg info -a > 00PACKAGES
+		# Packages don't store their configuration in /etc on FreeBSD
+		DIRS="${DIRS}_/usr/local/etc"
 		;;
 	OpenBSD)
 		# Keep a list of installed packages
@@ -56,6 +59,8 @@ case "`uname`" in
 		SORTCMD="sort_-R\\0"
 		# Keep a list of installed packages
 		pkgin list > 00PACKAGES
+		# Packages don't store their configuration in /etc on NetBSD
+		DIRS="${DIRS}_/usr/pkg/etc"
 		;;
 	*)
 		echo >&2 "Unknown OS"
@@ -64,11 +69,16 @@ case "`uname`" in
 esac
 
 # Also keep a list of all files present, with full metadata
-find /etc \( -name .git -o -name 00FILES -o -name 00PACKAGES \) -prune \
+find $DIRS \( -name .git -o -name 00FILES -o -name 00PACKAGES \) -prune \
  -o -print0 | $SORTCMD | xargs -0 $STATCMD > 00FILES
 
+# Extra DIRS require core.worktree to be / (we can't add files outside the tree)
+if [ "$DIRS" != "/etc" -a "`git config --get core.worktree`" != "/" ]; then
+	git config core.worktree /
+fi
+
 # Make sure all files are in index
-git ls-files -c -d -o -z | git update-index --add --remove -z --stdin
+git ls-files -c -d -o -z $DIRS | git update-index --add --remove -z --stdin
 
 # Only commit if something changed
 if ! git diff-index --quiet HEAD --ignore-submodules; then
