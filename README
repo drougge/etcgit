@@ -10,5 +10,7 @@ Setup:
 
 You can add directories to DIRS to include them in the git repo. This
 is done automatically for the package-/etc-dirs on FreeBSD and NetBSD.
-If you do so core.worktree will be set to /, which makes the output of
-"git status" a bit annoying.
+If you do so core.worktree will be set to / and core.excludesFile will
+be set to /etc/.git/etcgit.exclude which will contain everything that
+was in "git status" after the first commit. Make sure that nothing
+touches your $DIRS while the script is running the first time.

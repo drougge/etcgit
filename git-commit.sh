@@ -89,3 +89,10 @@ if ! git diff-index --quiet HEAD --ignore-submodules; then
 		git repack -d
 	fi
 fi
+
+# Try to keep "git status" output useful even when DIRS has more than just /etc
+# This has a race if something modifies /etc after our update-index.
+if [ "$DIRS" != "/etc" -a ! -e .git/etcgit.exclude ]; then
+	git status --porcelain=v1 | sed 's/^\?\? //' > .git/etcgit.exclude
+	git config core.excludesFile /etc/.git/etcgit.exclude
+fi
