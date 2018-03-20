@@ -18,6 +18,9 @@ if [ ! -d .git ]; then
 	exit 1
 fi
 
+# Avoid security disasters
+chmod 700 .git
+
 # I need spaces in words in my "array" vars, so I use _ as the delimiter instead
 IFS=_
 
