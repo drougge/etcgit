@@ -13,6 +13,11 @@ fi
 
 cd /etc
 
+if [ ! -d .git ]; then
+	echo >&2 Run \"git init\" in /etc and configure whatever you need.
+	exit 1
+fi
+
 # I need spaces in words in my "array" vars, so I use _ as the delimiter instead
 IFS=_
 
