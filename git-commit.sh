@@ -70,9 +70,12 @@ find /etc \( -name .git -o -name 00FILES -o -name 00PACKAGES \) -prune \
 # Make sure all files are in index
 git ls-files -c -d -o -z | git update-index --add --remove -z --stdin
 
-git commit -m "$log_message" -n
+# Only commit if something changed
+if ! git diff-index --quiet HEAD --ignore-submodules; then
+	git commit -m "$log_message" -n
 
-# repack every now and then
-if [ `dd if=/dev/urandom bs=1 count=1 2>/dev/null | od -iAn` -lt 16 ]; then
-	git repack -d
+	# repack every now and then
+	if [ `dd if=/dev/urandom bs=1 count=1 2>/dev/null | od -iAn` -lt 16 ]; then
+		git repack -d
+	fi
 fi
