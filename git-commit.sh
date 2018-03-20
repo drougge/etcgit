@@ -1,7 +1,9 @@
 #!/bin/sh
 
-# See if git is installed or exit
-which git > /dev/null 2>&1 || exit $?
+if ! which git > /dev/null 2>&1; then
+	echo >&2 This script needs git installed.
+	exit 1
+fi
 
 if [ "x$*" = "x" ]; then
 	log_message="autocommit"
