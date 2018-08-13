@@ -6,6 +6,8 @@ Works on FreeBSD, NetBSD, OpenBSD and Debian-, RedHat- and Alpine-likes.
 Setup:
 # cd /etc
 # git init
+# git config user.name root
+# git config user.email "root@`hostname`"
 # chmod 700 .git
 
 You can add directories to DIRS to include them in the git repo. This
