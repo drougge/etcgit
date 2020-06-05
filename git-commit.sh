@@ -28,6 +28,7 @@ IFS=_
 STATCMD="stat_-f_%Sp %5l %6u %6g %12z %m %N"
 SORTCMD="sort_-z"
 DIRS="/etc"
+EXTRA_FILES=""
 
 # Choose commands based on kernel name and some other things for Linux
 case "`uname`" in
@@ -50,6 +51,7 @@ case "`uname`" in
 		pkg info -a > 00PACKAGES
 		# Packages don't store their configuration in /etc on FreeBSD
 		DIRS="${DIRS}_/usr/local/etc"
+		EXTRA_FILES="/boot/loader.conf"
 		;;
 	OpenBSD)
 		# Keep a list of installed packages
@@ -81,6 +83,11 @@ fi
 
 # Make sure all files are in index
 git ls-files -c -d -o -z $DIRS | git update-index --add --remove -z --stdin
+
+# Including files outside the normal dirs.
+if [ -n "$EXTRA_FILES" ]; then
+	git update-index --add $EXTRA_FILES
+fi
 
 # Only commit if something changed
 if ! git diff-index --quiet HEAD --ignore-submodules; then
