@@ -75,6 +75,8 @@ find $DIRS \( -name .git -o -name 00FILES -o -name 00PACKAGES \) -prune \
 # Extra DIRS require core.worktree to be / (we can't add files outside the tree)
 if [ "$DIRS" != "/etc" -a "`git config --get core.worktree`" != "/" ]; then
 	git config core.worktree /
+	# Some versions of git get confused here. Adding a file seems to help.
+	git update-index --add git-commit.sh
 fi
 
 # Make sure all files are in index
